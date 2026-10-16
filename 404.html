@@ -1,5 +1,3 @@
-const db = globalThis.__B44_DB__ || { auth:{ isAuthenticated: async()=>false, me: async()=>null }, entities:new Proxy({}, { get:()=>({ filter:async()=>[], get:async()=>null, create:async()=>({}), update:async()=>({}), delete:async()=>({}) }) }), integrations:{ Core:{ UploadFile:async()=>({ file_url:'' }) } } };
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -9,7 +7,7 @@ const db = globalThis.__B44_DB__ || { auth:{ isAuthenticated: async()=>false, me
       // calls (page-view analytics). This build is served from Cloudflare, so
       // every `/api/...` request is pointed at the live Base44 backend.
       (function () {
-        var BASE = "https://jecaliha-builds-best.db.app";
+        var BASE = "https://jecaliha-builds-best.base44.app";
         var nativeFetch = window.fetch.bind(window);
         window.fetch = function (input, init) {
           var url = typeof input === "string" ? input : (input && input.url) || "";

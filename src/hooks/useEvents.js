@@ -1,6 +1,5 @@
-const db = globalThis.__B44_DB__ || { auth:{ isAuthenticated: async()=>false, me: async()=>null }, entities:new Proxy({}, { get:()=>({ filter:async()=>[], get:async()=>null, create:async()=>({}), update:async()=>({}), delete:async()=>({}) }) }), integrations:{ Core:{ UploadFile:async()=>({ file_url:'' }) } } };
-
 import { useEffect, useState } from "react";
+import { base44 } from "@/api/base44Client";
 
 // Company events come from the same gallery worker as the projects (a slow
 // cold start), so the list is cached for the session and in localStorage.
@@ -28,7 +27,7 @@ export function loadEvents() {
   }
   if (eventsRequest) return eventsRequest;
 
-  eventsRequest = db.functions
+  eventsRequest = base44.functions
     .invoke("eventsApi", { action: "list-events" })
     .then((response) => {
       const list = response?.data?.events ?? [];

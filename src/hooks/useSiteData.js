@@ -1,6 +1,5 @@
-const db = globalThis.__B44_DB__ || { auth:{ isAuthenticated: async()=>false, me: async()=>null }, entities:new Proxy({}, { get:()=>({ filter:async()=>[], get:async()=>null, create:async()=>({}), update:async()=>({}), delete:async()=>({}) }) }), integrations:{ Core:{ UploadFile:async()=>({ file_url:'' }) } } };
-
 import { useEffect, useState } from "react";
+import { base44 } from "@/api/base44Client";
 
 // The project list comes from a slow third-party gallery worker (~9s cold), so
 // it is cached for the session and in localStorage: a warm cache renders
@@ -29,7 +28,7 @@ export function loadProjects() {
   }
   if (projectsRequest) return projectsRequest;
 
-  projectsRequest = db.functions
+  projectsRequest = base44.functions
     .invoke("projectsApi", { action: "list-projects" })
     .then((response) => {
       const list = response?.data?.projects ?? [];
@@ -80,7 +79,7 @@ export function useProjectImages(folder) {
     }
     let alive = true;
     setLoading(true);
-    db.functions
+    base44.functions
       .invoke("projectsApi", { action: "list-images", folder })
       .then((response) => {
         if (alive) setImages(response?.data?.images ?? []);
@@ -106,7 +105,7 @@ export function useYoutubeFeed() {
 
   useEffect(() => {
     let alive = true;
-    db.functions
+    base44.functions
       .invoke("youtubeFeed", {})
       .then((response) => {
         if (!alive) return;
