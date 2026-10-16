@@ -1,0 +1,49 @@
+const db = globalThis.__B44_DB__ || { auth:{ isAuthenticated: async()=>false, me: async()=>null }, entities:new Proxy({}, { get:()=>({ filter:async()=>[], get:async()=>null, create:async()=>({}), update:async()=>({}), delete:async()=>({}) }) }), integrations:{ Core:{ UploadFile:async()=>({ file_url:'' }) } } };
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      // Static SPA export: the Base44 runtime injects same-origin `/api/...`
+      // calls (page-view analytics). This build is served from Cloudflare, so
+      // every `/api/...` request is pointed at the live Base44 backend.
+      (function () {
+        var BASE = "https://jecaliha-builds-best.db.app";
+        var nativeFetch = window.fetch.bind(window);
+        window.fetch = function (input, init) {
+          var url = typeof input === "string" ? input : (input && input.url) || "";
+          if (url.indexOf("/api/") === 0) {
+            input = typeof input === "string" ? BASE + url : new Request(BASE + url, input);
+          }
+          return nativeFetch(input, init);
+        };
+      })();
+    </script>
+    <link rel="icon" type="image/webp" href="https://pub-7bc4037c95e641a38dea4fa14fc2154b.r2.dev/logo/logo.webp?v=2" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jecaliha Builders Corporation | General Construction &amp; Pool Specialists</title>
+    <meta
+      name="description"
+      content="Jecaliha Builders Corporation is a PCAB-licensed general contractor established in 2019 — design &amp; build, customized pools and resorts, 5-stage waterproofing, café and condo fit-outs, solar installation, and major renovations across Metro Manila, North &amp; South Luzon, and the Visayas."
+    />
+    <meta name="theme-color" content="#0F1115" />
+    <meta property="og:title" content="Jecaliha Builders Corporation" />
+    <meta
+      property="og:description"
+      content="Building stronger foundations for your future — general construction and specialized pool builders since 2019."
+    />
+    <meta property="og:type" content="website" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&family=Syncopate:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="manifest" href="/manifest.json" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
